@@ -10,6 +10,7 @@ public class GameModel {
     private int linesCleared;
     private boolean isGameOver;
     private boolean isPaused;
+    private boolean isTitleScreen;
 
     // Piece tracking
     private int[][] currentPiece;
@@ -59,6 +60,7 @@ public class GameModel {
         linesCleared = 0;
         isGameOver = false;
         isPaused = false;
+        isTitleScreen = true;
         random = new Random();
         nextPiece = SHAPES[random.nextInt(SHAPES.length)];
         spawnPiece();
@@ -159,7 +161,7 @@ public class GameModel {
      * Called by the timer loop to handle gravity (moving piece down).
      */
     public void update() {
-        if (isPaused || isGameOver) return;
+        if (isTitleScreen || isPaused || isGameOver) return;
         
         // Handle automatic gravity / dropping
         if (isValidPosition(currentPiece, currentX, currentY + 1)) {
@@ -251,6 +253,7 @@ public class GameModel {
         linesCleared = 0;
         isGameOver = false;
         isPaused = false;
+        // Do not go back to title screen on restart
         nextPiece = SHAPES[random.nextInt(SHAPES.length)];
         spawnPiece();
     }
@@ -262,6 +265,9 @@ public class GameModel {
     public int getLinesCleared() { return linesCleared; }
     public boolean isGameOver() { return isGameOver; }
     public boolean isPaused() { return isPaused; }
+    public boolean isTitleScreen() { return isTitleScreen; }
+    
+    public void startGame() { isTitleScreen = false; }
     
     // New getters for tracking the current piece
     public int[][] getCurrentPiece() { return currentPiece; }

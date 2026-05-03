@@ -159,4 +159,29 @@ What it did: Added what was asked.
 
 
 
-Prompt 8 - Adding pause and next piece box: 
+Prompt 8 - Adding pause state and title screen: 
+Add a pause state that can be activated by pressing p while the timer is running. Also, add an initial title screen state when the game is first opened. It should say "Tetris" and "Press any key to start the game"
+
+What it did: 
+The agent implemented a pause state and title screen using most of the same logic as the game over state. 
+
+What I did: I think I will re-prompt with instructions to make the restart button not go to the title screen though for a more seamless experience. Also, I think its probably a good idea to add the control keys to the title screen so anybody can know how to play.
+
+Re-prompt: Make it so that the restart button does not go back to the title screen, but instead only resets the game. Also, add the control instructions to a text box on the title screen.
+
+What it did: Implemented my suggestions into the game.
+
+
+
+Prompt 9 - Adding the next piece to the side panel and speed up implementation:
+Make the side panel in GameView display a preview of the next piece to be spawned. Also, alter the timer to make the game speed up based on the level.
+
+What it did: 
+Successfully added the next piece to the side panel using the same logic as the current piece. Also altered the game loop timer to increase speed as the level goes up. 
+
+What I did: 
+Observed the game and found that it is difficult to see how the leveling system works, so I will test it in ModelTester.
+
+Prompt: Write a test in ModelTester to see how many points it takes to go to the next level.
+
+What it did: Wrote a test that calculated that it takes 10 completed lines to reach level 2.

@@ -6,7 +6,28 @@ public class ModelTester {
         testRightWallCollision();
         testHardDropAndLock();
         testGameOverCondition();
+        testLevelingSystem();
         System.out.println("--- Tests Complete ---");
+    }
+
+    private static void testLevelingSystem() {
+        GameModel model = new GameModel();
+        
+        // Artificially construct 10 completely full lines at the bottom of the grid
+        int[][] grid = model.getPlayfield();
+        for (int r = GameModel.ROWS - 10; r < GameModel.ROWS; r++) {
+            for (int c = 0; c < GameModel.COLS; c++) {
+                grid[r][c] = 1;
+            }
+        }
+        
+        // Hard drop a piece to trigger the lockPiece() and clearLines() methods
+        model.hardDrop();
+        
+        int newLevel = model.getLevel();
+        boolean pass = (newLevel == 2);
+        
+        System.out.println("Test Leveling System (10 lines cleared = Level 2): " + pass + " | Final Level: " + newLevel);
     }
 
     private static void testLeftWallCollision() {

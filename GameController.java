@@ -25,9 +25,9 @@ public class GameController {
         view.requestFocusInWindow();
 
         // Initialize game loop timer
-        // The speed will be updated based on the level in the future
         gameLoopTimer = new Timer(500, e -> {
             model.update();
+            updateTimerSpeed();
             view.refresh();
             if (model.isGameOver()) {
                 gameLoopTimer.stop();
@@ -35,10 +35,23 @@ public class GameController {
         });
     }
 
+    private void updateTimerSpeed() {
+        int baseSpeed = 500;
+        int level = model.getLevel();
+        int newSpeed = Math.max(50, baseSpeed - (level - 1) * 50); // Decrease by 50ms per level
+        gameLoopTimer.setDelay(newSpeed);
+    }
+
     /**
      * Maps keyboard inputs to the appropriate Model methods.
      */
     private void handleInput(KeyEvent e) {
+        if (model.isTitleScreen()) {
+            model.startGame();
+            view.refresh();
+            return;
+        }
+
         int keyCode = e.getKeyCode();
         
         switch (keyCode) {
@@ -60,8 +73,14 @@ public class GameController {
             case KeyEvent.VK_PERIOD: // Period
                 model.rotateCounterClockwise();
                 break;
+            case KeyEvent.VK_P:
             case KeyEvent.VK_ESCAPE:
                 model.togglePause();
+                if (model.isPaused()) {
+                    gameLoopTimer.stop();
+                } else {
+                    gameLoopTimer.start();
+                }
                 break;
             case KeyEvent.VK_R:
                 if (model.isGameOver()) {
