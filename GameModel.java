@@ -1,3 +1,5 @@
+import java.util.Random;
+
 public class GameModel {
     public static final int ROWS = 20;
     public static final int COLS = 10;
@@ -14,10 +16,40 @@ public class GameModel {
     private int currentX;
     private int currentY;
     
-    // A simple default T-shape piece for testing logic
-    private static final int[][] DEFAULT_SHAPE = {
-        {1, 1, 1},
-        {0, 1, 0}
+    private int[][] nextPiece;
+    private Random random;
+
+    // All 7 Tetromino shapes in their starting orientations.
+    // Numbers 1-7 represent the different shapes/colors.
+    private static final int[][][] SHAPES = {
+        // I-piece (Cyan, 1)
+        { {0, 0, 0, 0},
+          {1, 1, 1, 1},
+          {0, 0, 0, 0},
+          {0, 0, 0, 0} },
+        // J-piece (Blue, 2)
+        { {2, 0, 0},
+          {2, 2, 2},
+          {0, 0, 0} },
+        // L-piece (Orange, 3)
+        { {0, 0, 3},
+          {3, 3, 3},
+          {0, 0, 0} },
+        // O-piece (Yellow, 4)
+        { {4, 4},
+          {4, 4} },
+        // S-piece (Green, 5)
+        { {0, 5, 5},
+          {5, 5, 0},
+          {0, 0, 0} },
+        // T-piece (Purple, 6)
+        { {0, 6, 0},
+          {6, 6, 6},
+          {0, 0, 0} },
+        // Z-piece (Red, 7)
+        { {7, 7, 0},
+          {0, 7, 7},
+          {0, 0, 0} }
     };
 
     public GameModel() {
@@ -27,11 +59,15 @@ public class GameModel {
         linesCleared = 0;
         isGameOver = false;
         isPaused = false;
+        random = new Random();
+        nextPiece = SHAPES[random.nextInt(SHAPES.length)];
         spawnPiece();
     }
 
     private void spawnPiece() {
-        currentPiece = DEFAULT_SHAPE;
+        currentPiece = nextPiece;
+        nextPiece = SHAPES[random.nextInt(SHAPES.length)];
+        
         currentY = 0;
         currentX = COLS / 2 - currentPiece[0].length / 2;
         
@@ -144,6 +180,7 @@ public class GameModel {
         linesCleared = 0;
         isGameOver = false;
         isPaused = false;
+        nextPiece = SHAPES[random.nextInt(SHAPES.length)];
         spawnPiece();
     }
 
@@ -159,4 +196,5 @@ public class GameModel {
     public int[][] getCurrentPiece() { return currentPiece; }
     public int getCurrentX() { return currentX; }
     public int getCurrentY() { return currentY; }
+    public int[][] getNextPiece() { return nextPiece; }
 }

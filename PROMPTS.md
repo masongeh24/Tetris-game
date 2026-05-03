@@ -88,8 +88,22 @@ Lets start by implementing things in only GameModel. Fill in the moving methods 
 What it did:
 The Agent successfully added methods to GameModel.java (without using Swing imports) to track the current piece using int[ROWS][COLS] and implemented basic movement, gravity, and collision.
 
-What I changed:
-The Agent implemented only one test shape, which I was not expecting it to do yet, but I agree that it will be useful to test with so i will keep it until I finish testing this vertical slice.
+What I did:
+The Agent implemented only one test shape, but I would like to implement all 7 shapes. 
+Re-prompted with: "Please implement the logic for all 7 shapes instead of one test shape."
+
+Result: Each piece now has a starting template. They are all also assigned their own colors.
 
 
-Prompt 3 - GameView implementation:
+Prompt 3 - GameView implementation and first visual test:
+In GameView, implement the drawing of the 10x20 board, active piece with every tick and the settled pieces. 
+Now, when the game is opened, it should now spawn a random piece at the top, the piece can be moved and will fall. And when touching the bottom, or another settled piece, it will become a settled piece and the current piece will switch to a newly spawned piece at the top.
+
+What it did: 
+Added the necessary methods to draw the board, the current piece, and the settled pieces.
+It also added a couple of statements in GameModel to pick a new random piece to spawn at the top.
+
+Now, when the game is opened, a random tetris piece will spawn. You can move it left or right, or down faster.
+
+What I did: 
+I noticed that the grid was not centered in the window, so I went into GameView.java and changed the BOARD_X variable to 275 to center it.
