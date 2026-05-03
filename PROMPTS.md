@@ -106,4 +106,17 @@ It also added a couple of statements in GameModel to pick a new random piece to 
 Now, when the game is opened, a random tetris piece will spawn. You can move it left or right, or down faster.
 
 What I did: 
-I noticed that the grid was not centered in the window, so I went into GameView.java and changed the BOARD_X variable to 275 to center it.
+I noticed that the grid was not centered in the window when I opened the game, so I went into 
+GameView.java and changed the BOARD_X variable to 275 to center it (275/800 * 100 = 34.375% of the window width).
+
+
+Prompt 4 - Implementing the Game Over state:
+In GameModel, implement a Game Over method that detects when a newly spawned piece immediately collides with existing blocks, and puts the game into a gameover state where the timer is stopped. In GameView, this state triggers a game over and "Press R to restart" textbox to be drawn in the center of the window.
+
+What it did:
+I forgot that it already implemented a gameover variable and method in GameModel, so it just implemented the statements to stop the timer and draw the gameover textbox.
+
+What I did:
+After opening the game and looking at the game over screen, The game over state is seemingly working, however, I believe now is a good time to write a testExtension file to test if there are any bugs I am missing.
+
+Prompt 5 - TestExtension:

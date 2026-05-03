@@ -3,6 +3,8 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Font;
+import java.awt.FontMetrics;
 
 public class GameView extends JFrame {
     private GameModel model;
@@ -83,7 +85,32 @@ public class GameView extends JFrame {
             }
 
             // TODO: Draw side panels (Score, Level, Lines, Next Piece)
-            // TODO: Draw overlays (Game Over, Paused)
+            
+            // Draw overlays (Game Over)
+            if (model.isGameOver()) {
+                g.setColor(new Color(0, 0, 0, 150)); // Semi-transparent black overlay
+                g.fillRect(0, 0, getWidth(), getHeight());
+
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("SansSerif", Font.BOLD, 40));
+                FontMetrics fm = g.getFontMetrics();
+                String gameOverText = "GAME OVER";
+                String restartText = "Press R to restart";
+                
+                int goWidth = fm.stringWidth(gameOverText);
+                int goX = (getWidth() - goWidth) / 2;
+                int goY = getHeight() / 2 - 20;
+                g.drawString(gameOverText, goX, goY);
+                
+                g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                fm = g.getFontMetrics();
+                int rWidth = fm.stringWidth(restartText);
+                int rX = (getWidth() - rWidth) / 2;
+                int rY = getHeight() / 2 + 20;
+                g.drawString(restartText, rX, rY);
+            }
+            
+            // TODO: Draw Paused overlay
         }
 
         /**

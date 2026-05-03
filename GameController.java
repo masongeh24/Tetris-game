@@ -29,6 +29,9 @@ public class GameController {
         gameLoopTimer = new Timer(500, e -> {
             model.update();
             view.refresh();
+            if (model.isGameOver()) {
+                gameLoopTimer.stop();
+            }
         });
     }
 
@@ -63,6 +66,7 @@ public class GameController {
             case KeyEvent.VK_R:
                 if (model.isGameOver()) {
                     model.restart();
+                    gameLoopTimer.start();
                 }
                 break;
         }
