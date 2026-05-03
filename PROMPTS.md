@@ -82,5 +82,14 @@ What I changed:
 Nothing at this stage since there is nothing much to change yet. The game window opens when the program is run and the generated code is acceptable.
 
 
-Prompt 2 - GameModel:
-Lets flesh out GameModel. Fill in the moving methods to track the current piece to so that it can be moved left and right within the playable grid. Implement "gravity" within the update method so that the piece will move down a grid with every tick. Do not use swing imports in GameModel. 
+Prompt 2 - GameModel implementation of movement and gravity:
+Lets start by implementing things in only GameModel. Fill in the moving methods to track the current piece to so that it can be moved left and right within the playable grid. Implement gravity within the update method so that the piece will move down a grid with every tick. Do not use swing imports in GameModel. 
+
+What it did:
+The Agent successfully added methods to GameModel.java (without using Swing imports) to track the current piece using int[ROWS][COLS] and implemented basic movement, gravity, and collision.
+
+What I changed:
+The Agent implemented only one test shape, which I was not expecting it to do yet, but I agree that it will be useful to test with so i will keep it until I finish testing this vertical slice.
+
+
+Prompt 3 - GameView implementation:
