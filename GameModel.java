@@ -109,7 +109,50 @@ public class GameModel {
                 }
             }
         }
-        // TODO: clear lines after locking
+        clearLines();
+    }
+
+    private void clearLines() {
+        int linesClearedNow = 0;
+        
+        for (int r = ROWS - 1; r >= 0; r--) {
+            boolean isFull = true;
+            for (int c = 0; c < COLS; c++) {
+                if (playfield[r][c] == 0) {
+                    isFull = false;
+                    break;
+                }
+            }
+            
+            if (isFull) {
+                linesClearedNow++;
+                // Shift all rows above down by 1
+                for (int shiftR = r; shiftR > 0; shiftR--) {
+                    for (int c = 0; c < COLS; c++) {
+                        playfield[shiftR][c] = playfield[shiftR - 1][c];
+                    }
+                }
+                // Clear the top row
+                for (int c = 0; c < COLS; c++) {
+                    playfield[0][c] = 0;
+                }
+                
+                // Since we shifted down, we need to check this row again
+                r++;
+            }
+        }
+        
+        if (linesClearedNow > 0) {
+            linesCleared += linesClearedNow;
+            switch(linesClearedNow) {
+                case 1: score += 100; break;
+                case 2: score += 300; break;
+                case 3: score += 500; break;
+                case 4: score += 800; break;
+            }
+            // Update level
+            level = (linesCleared / 10) + 1;
+        }
     }
 
     /**
@@ -157,14 +200,42 @@ public class GameModel {
         spawnPiece();
     }
 
+    private int[][] rotateMatrixClockwise(int[][] matrix) {
+        int n = matrix.length;
+        int[][] rotated = new int[n][n];
+        for (int r = 0; r < n; r++) {
+            for (int c = 0; c < n; c++) {
+                rotated[c][n - 1 - r] = matrix[r][c];
+            }
+        }
+        return rotated;
+    }
+
+    private int[][] rotateMatrixCounterClockwise(int[][] matrix) {
+        int n = matrix.length;
+        int[][] rotated = new int[n][n];
+        for (int r = 0; r < n; r++) {
+            for (int c = 0; c < n; c++) {
+                rotated[n - 1 - c][r] = matrix[r][c];
+            }
+        }
+        return rotated;
+    }
+
     public void rotateClockwise() {
         if (isPaused || isGameOver) return;
-        // Rotate current piece clockwise (to be implemented)
+        int[][] rotated = rotateMatrixClockwise(currentPiece);
+        if (isValidPosition(rotated, currentX, currentY)) {
+            currentPiece = rotated;
+        }
     }
 
     public void rotateCounterClockwise() {
         if (isPaused || isGameOver) return;
-        // Rotate current piece counter-clockwise (to be implemented)
+        int[][] rotated = rotateMatrixCounterClockwise(currentPiece);
+        if (isValidPosition(rotated, currentX, currentY)) {
+            currentPiece = rotated;
+        }
     }
 
     public void togglePause() {

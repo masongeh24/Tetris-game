@@ -84,7 +84,30 @@ public class GameView extends JFrame {
                 }
             }
 
-            // TODO: Draw side panels (Score, Level, Lines, Next Piece)
+            // Draw side panels (Score, Level, Lines)
+            int panelX = BOARD_X + (GameModel.COLS * BLOCK_SIZE) + 30;
+            int panelY = BOARD_Y;
+            int panelWidth = 150;
+            int panelHeight = 130;
+            
+            // Draw panel background
+            g.setColor(Color.BLACK);
+            g.fillRect(panelX, panelY, panelWidth, panelHeight);
+            
+            // Draw panel border
+            g.setColor(Color.WHITE);
+            g.drawRect(panelX - 1, panelY - 1, panelWidth + 1, panelHeight + 1);
+            
+            // Draw text
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("SansSerif", Font.BOLD, 20));
+            int textX = panelX + 15;
+            int textY = panelY + 35;
+            g.drawString("Score: " + model.getScore(), textX, textY);
+            g.drawString("Lines: " + model.getLinesCleared(), textX, textY + 40);
+            g.drawString("Level: " + model.getLevel(), textX, textY + 80);
+            
+            // TODO: Draw Next Piece
             
             // Draw overlays (Game Over)
             if (model.isGameOver()) {

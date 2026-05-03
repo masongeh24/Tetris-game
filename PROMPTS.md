@@ -82,6 +82,7 @@ What I changed:
 Nothing at this stage since there is nothing much to change yet. The game window opens when the program is run and the generated code is acceptable.
 
 
+
 Prompt 2 - GameModel implementation of movement and gravity:
 Lets start by implementing things in only GameModel. Fill in the moving methods to track the current piece to so that it can be moved left and right within the playable grid. Implement gravity within the update method so that the piece will move down a grid with every tick. Do not use swing imports in GameModel. 
 
@@ -93,6 +94,7 @@ The Agent implemented only one test shape, but I would like to implement all 7 s
 Re-prompted with: "Please implement the logic for all 7 shapes instead of one test shape."
 
 Result: Each piece now has a starting template. They are all also assigned their own colors.
+
 
 
 Prompt 3 - GameView implementation and first visual test:
@@ -110,6 +112,7 @@ I noticed that the grid was not centered in the window when I opened the game, s
 GameView.java and changed the BOARD_X variable to 275 to center it (275/800 * 100 = 34.375% of the window width).
 
 
+
 Prompt 4 - Implementing the Game Over state:
 In GameModel, implement a Game Over method that detects when a newly spawned piece immediately collides with existing blocks, and puts the game into a gameover state where the timer is stopped. In GameView, this state triggers a game over and "Press R to restart" textbox to be drawn in the center of the window.
 
@@ -117,6 +120,43 @@ What it did:
 I forgot that it already implemented a gameover variable and method in GameModel, so it just implemented the statements to stop the timer and draw the gameover textbox.
 
 What I did:
-After opening the game and looking at the game over screen, The game over state is seemingly working, however, I believe now is a good time to write a testExtension file to test if there are any bugs I am missing.
+After opening the game and looking at the game over screen, The game over state works. 
 
-Prompt 5 - TestExtension:
+
+
+Prompt 5 - Adding rotation and next piece:
+Implement the methods to rotate pieces in GameModel. Check if pieces are able to rotate (If the piece would be inside another piece if rotated, it cannot rotate). Do not use swing imports in GameModel.
+
+What it did:
+The Agent added matrix methods to rotate the pieces in the int matrix. It also added collision checks to make sure that the pieces don't clip into neighboring blocks.
+I believe now is a good time to write a testExtension file to test if there are any bugs I am missing.
+
+
+
+Prompt 6 - TestExtension:
+Create a ModelTester.java file and write 3 or more tests to verify the behaviors of the game that may have edge cases by using printed booleans (like testing that the player cannot move past the edges of the plable space, etc.). 
+
+What it did: The Agent created the ModelTester file and created a left/right wall collision test, Hard drop test, and a test to check if the Game Over state triggers correctly. It tested by using test methods and booleans that printed if the behaviors passed or not.
+
+What I did:
+I observed that the tests all passed for the time being. I will re-open this tester later on to test for other bugs.
+
+
+
+Prompt 7 - Adding line clearing and scoring systems:
+Add a line clearing system that will clear lines when a row is completely filled (and the rest of the blocks fall down accordingly), and add a scoring system in GameModel that will add points for clearing lines. Add 100 points for clearing 1 line, 300 for 2, 500 for 3, and 800 for 4.
+In GameView, draw the score and number of lines cleared to the right of the board in the upper half of the window.
+
+What it did:
+The Agent implemented a side panel in GameView, and implemented line clearing and scoring methods that detect when a row has been fully filled.
+
+What I did:
+I observed that the lines now clear and the score box goes up accordingly. I didn't like how barebones the side panel looked, so I re-prompted with a series of instructions to make the side panel look better and display more information.
+
+Re-Prompt: Make the side panel have a visible black rectangle with white border.
+
+What it did: Added what was asked.
+
+
+
+Prompt 8 - Adding pause and next piece box: 
