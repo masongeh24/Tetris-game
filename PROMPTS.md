@@ -185,3 +185,28 @@ Observed the game and found that it is difficult to see how the leveling system 
 Prompt: Write a test in ModelTester to see how many points it takes to go to the next level.
 
 What it did: Wrote a test that calculated that it takes 10 completed lines to reach level 2.
+
+
+
+Prompt 10 - Adding title background and side panel backgrounds:
+In GameView, Implement a background image of tetris blocks to the title screen. Also add a grey tetris block pattern as a visible background behind the panels in the main game screen.
+
+What it did: 
+The Agent successfully added a tile background to the title screen using procedurally generated colored squares that reuse some code from the tetris blocks, and the grey tetris block pattern adjusting the brightness to give it a striped appearance. I was thinking more of a pattern of the 7 different tetris blocks, but the current implementation looks nice too. 
+
+What I did: 
+I could also just add a big int[][] with the desired tetris block pattern, similar to the current playfield implementation, but the agents procedural implementation works well and will probably make it easier to differentiate the playable area from the background.
+
+
+
+Prompt 11 - Add simple sound effects:
+I tried to implement some simple sound effects for the game, reusing some code implemented from my snake game.
+
+What it did: volume cannot be resolved to a variable
+
+What I did: The game would not start because I forgot to replace a nonexistant volume variable. I fixed this by setting the amplitude to 5 in getAmplitude() to remove all references to a volume variable.
+
+    Prompt: Implement a basic one note tone to play when a piece lands and a positive tone when a line is cleared, in the same fashion as the playGameOver() method in GameController.java.
+
+    What it did:
+    Added flags in GameModel to track if a piece landed or if a line was cleared, and created methods to check for these flags and play the sounds in GameController accordingly.

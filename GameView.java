@@ -44,9 +44,55 @@ public class GameView extends JFrame {
         protected void paintComponent(Graphics g) {
             super.paintComponent(g);
 
+            if (model.isTitleScreen()) {
+                drawBackgroundPattern(g, true);
+                
+                g.setColor(new Color(0, 0, 0, 180));
+                g.fillRect(0, 0, getWidth(), getHeight());
+
+                g.setColor(Color.WHITE);
+                g.setFont(new Font("SansSerif", Font.BOLD, 60));
+                FontMetrics fm = g.getFontMetrics();
+                String titleText = "Tetris";
+                String startText = "Press any key to start the game";
+                
+                int tWidth = fm.stringWidth(titleText);
+                int tX = (getWidth() - tWidth) / 2;
+                int tY = getHeight() / 2 - 100;
+                g.drawString(titleText, tX, tY);
+                
+                g.setFont(new Font("SansSerif", Font.PLAIN, 20));
+                fm = g.getFontMetrics();
+                int sWidth = fm.stringWidth(startText);
+                int sX = (getWidth() - sWidth) / 2;
+                int sY = getHeight() / 2 - 40;
+                g.drawString(startText, sX, sY);
+
+                // Add controls
+                g.setFont(new Font("SansSerif", Font.PLAIN, 16));
+                String[] controls = {
+                    "Controls:",
+                    "Left/Right Arrows - Move Piece",
+                    "Down Arrow - Soft Drop",
+                    "Spacebar - Hard Drop",
+                    "/ (Forward Slash) - Rotate Clockwise",
+                    ". (Period) - Rotate Counter-Clockwise",
+                    "P or Escape - Pause",
+                    "R - Restart (Game Over)"
+                };
+                
+                int cY = getHeight() / 2 + 20;
+                for (String line : controls) {
+                    fm = g.getFontMetrics();
+                    int cX = (getWidth() - fm.stringWidth(line)) / 2;
+                    g.drawString(line, cX, cY);
+                    cY += 25;
+                }
+                return;
+            }
+
             // Draw static background
-            g.setColor(Color.DARK_GRAY);
-            g.fillRect(0, 0, getWidth(), getHeight());
+            drawBackgroundPattern(g, false);
 
             // Draw board background
             g.setColor(Color.BLACK);
@@ -164,47 +210,26 @@ public class GameView extends JFrame {
                 g.drawString(pauseText, pX, pY);
             }
             
-            if (model.isTitleScreen()) {
-                g.setColor(Color.BLACK);
-                g.fillRect(0, 0, getWidth(), getHeight());
+        }
 
-                g.setColor(Color.WHITE);
-                g.setFont(new Font("SansSerif", Font.BOLD, 60));
-                FontMetrics fm = g.getFontMetrics();
-                String titleText = "Tetris";
-                String startText = "Press any key to start the game";
-                
-                int tWidth = fm.stringWidth(titleText);
-                int tX = (getWidth() - tWidth) / 2;
-                int tY = getHeight() / 2 - 100;
-                g.drawString(titleText, tX, tY);
-                
-                g.setFont(new Font("SansSerif", Font.PLAIN, 20));
-                fm = g.getFontMetrics();
-                int sWidth = fm.stringWidth(startText);
-                int sX = (getWidth() - sWidth) / 2;
-                int sY = getHeight() / 2 - 40;
-                g.drawString(startText, sX, sY);
+        private void drawBackgroundPattern(Graphics g, boolean colored) {
+            for (int x = 0; x < getWidth(); x += BLOCK_SIZE) {
+                for (int y = 0; y < getHeight(); y += BLOCK_SIZE) {
+                    int type = (Math.abs(x * 31 + y * 17)) % 8;
+                    if (type == 0) continue;
 
-                // Add controls
-                g.setFont(new Font("SansSerif", Font.PLAIN, 16));
-                String[] controls = {
-                    "Controls:",
-                    "Left/Right Arrows - Move Piece",
-                    "Down Arrow - Soft Drop",
-                    "Spacebar - Hard Drop",
-                    "/ (Forward Slash) - Rotate Clockwise",
-                    ". (Period) - Rotate Counter-Clockwise",
-                    "P or Escape - Pause",
-                    "R - Restart (Game Over)"
-                };
-                
-                int cY = getHeight() / 2 + 20;
-                for (String line : controls) {
-                    fm = g.getFontMetrics();
-                    int cX = (getWidth() - fm.stringWidth(line)) / 2;
-                    g.drawString(line, cX, cY);
-                    cY += 25;
+                    if (colored) {
+                        drawBlock(g, x, y, type);
+                    } else {
+                        Color c = new Color(40 + (type * 5), 40 + (type * 5), 40 + (type * 5));
+                        g.setColor(c);
+                        g.fillRect(x, y, BLOCK_SIZE, BLOCK_SIZE);
+                        g.setColor(c.darker().darker());
+                        g.drawRect(x, y, BLOCK_SIZE - 1, BLOCK_SIZE - 1);
+                        g.setColor(c.brighter());
+                        g.drawLine(x, y, x + BLOCK_SIZE - 1, y);
+                        g.drawLine(x, y, x, y + BLOCK_SIZE - 1);
+                    }
                 }
             }
         }

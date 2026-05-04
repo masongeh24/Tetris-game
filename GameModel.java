@@ -11,6 +11,9 @@ public class GameModel {
     private boolean isGameOver;
     private boolean isPaused;
     private boolean isTitleScreen;
+    
+    private boolean pieceLandedFlag;
+    private boolean lineClearedFlag;
 
     // Piece tracking
     private int[][] currentPiece;
@@ -101,6 +104,7 @@ public class GameModel {
     }
 
     private void lockPiece() {
+        pieceLandedFlag = true;
         for (int r = 0; r < currentPiece.length; r++) {
             for (int c = 0; c < currentPiece[r].length; c++) {
                 if (currentPiece[r][c] != 0) {
@@ -145,6 +149,7 @@ public class GameModel {
         }
         
         if (linesClearedNow > 0) {
+            lineClearedFlag = true;
             linesCleared += linesClearedNow;
             switch(linesClearedNow) {
                 case 1: score += 100; break;
@@ -274,4 +279,20 @@ public class GameModel {
     public int getCurrentX() { return currentX; }
     public int getCurrentY() { return currentY; }
     public int[][] getNextPiece() { return nextPiece; }
+
+    public boolean consumePieceLanded() {
+        if (pieceLandedFlag) {
+            pieceLandedFlag = false;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean consumeLineCleared() {
+        if (lineClearedFlag) {
+            lineClearedFlag = false;
+            return true;
+        }
+        return false;
+    }
 }
